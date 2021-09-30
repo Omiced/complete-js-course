@@ -15,7 +15,8 @@ let scores;
 let currentScore;
 let playing;
 let activePlayer;
-const init = function () {
+init();
+function init() {
   scores = [0, 0];
   currentScore = 0;
   activePlayer = 0;
@@ -29,8 +30,7 @@ const init = function () {
   current0El.textContent = 0;
   current1El.textContent = 0;
   diceEl.classList.add("hidden");
-};
-init();
+}
 const switchPlayer = function () {
   !activePlayer ? (current0El.textContent = 0) : (current1El.textContent = 0);
   activePlayer = activePlayer === 0 ? 1 : 0;
