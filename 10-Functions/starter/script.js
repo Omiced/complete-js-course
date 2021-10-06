@@ -183,7 +183,7 @@ poll.displayResults.call({ answers: [5, 2, 3] }, "string");
 (() => console.log("this will ALSO never run again"))();
 */
 
-/* clousures */
+/* closures 
 const secureBooking = function () {
   let passangerCount = 0;
   return function () {
@@ -195,7 +195,56 @@ const secureBooking = function () {
 const booker = secureBooking();
 //aunque la función booker fue declarada en un ambito global, esta aún tiene acceso
 // a el ambito de la función creadora, que en este caso es secureBooking por ello es capas de
-// manipular la variable passangerCount, incluso cuando esta en un ambito inferior "esto es clousure"
+// manipular la variable passangerCount, incluso cuando esta en un ambito inferior "esto es closure"
 booker();
 booker();
 booker();
+// closures parte 2 ejemplos
+//ejemplo 1
+let f;
+const g = function () {
+  const a = 23;
+  f = function () {
+    //reasignamos la variable f a una función, que tendra acceso a la constante a
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    //en esta reasignación pasara a ser la funcón hija de h y por eso tendra acceso a la variable b
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+console.dir(f);
+//reasignación
+h();
+f();
+console.dir(f);
+//ejemplo 2
+const boardPassangers = function (n, wait) {
+  const perGroup = n / 3;
+  // la función setTimeout tiene un closure
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passangers`);
+    console.log(`There are 3 groups, each with ${perGroup} passangers`);
+  }, wait * 1000);
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+boardPassangers(180, 3);
+*/
+
+/* coding challenge*/
+(function () {
+  const header = document.querySelector("h1");
+  header.style.color = "red";
+  const body = document.querySelector("body");
+
+  body.addEventListener("click", () => {
+    header.style.color = "blue";
+  });
+})();
