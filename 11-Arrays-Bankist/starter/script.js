@@ -61,6 +61,26 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+const displayMovements = function (movements) {
+  //limpiando condiciones iniciales
+  containerMovements.innerHTML = "";
+  movements.forEach((mov, i) => {
+    const type = mov > 0 ? "deposit" : "withdrawal";
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">
+        ${i + 1} ${type}
+      </div>
+      <div class="movements__value">
+        ${mov}
+      </div>
+    </div>
+    `;
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
+};
+displayMovements(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -80,3 +100,19 @@ let arr = [1, 2, 3, 4, 5];
 console.log(arr.slice(2)); //regresa los numeros apartir de la posición 2
 console.log(arr.slice(2, 4)); //regresa los números a partir de la posición 2 y hasta la 4
 */
+/* coding challenge 1*/
+const checkDogs = function (dogsJulia, dogsKate) {
+  const correctedJulia = dogsJulia.slice(1, -2);
+  // const allDoges = [...correctedJulia, ...dogsKate];
+  const allDoges = correctedJulia.concat(dogsKate);
+  allDoges.forEach((dog, i) => {
+    const adultPuppy =
+      dog > 2
+        ? `Dog number ${i + 1} is an adult, and is ${dog} years old`
+        : `Dog number ${i + 1} is still a puppy`;
+    console.log(adultPuppy);
+  });
+};
+checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+console.log("-------------------Prueba 2");
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
