@@ -422,7 +422,7 @@ console.log(convertTitleCase("this is a nice title"));
 console.log(convertTitleCase("this is a LONG title but not too long"));
 console.log(convertTitleCase("and here is another title with an EXAMPLE"));
 */
-/* last charenji */
+/* last charenji 
 const dogs = [
   { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
   { weight: 8, curFood: 200, owners: ["Matilda"] },
@@ -529,3 +529,7 @@ const dogSorted = dogs
   .slice()
   .sort((a, b) => a.recommendedFood - b.recommendedFood);
 console.log(dogSorted);
+*/
+/* metodo at(). */
+const arra = [1, 2, 3, 4, 5, 6];
+console.log(arra.at(-1));

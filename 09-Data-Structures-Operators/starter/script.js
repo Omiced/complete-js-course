@@ -526,3 +526,31 @@ for (const flight of flights.split("+")) {
   console.log(output);
 }
 */
+
+/* Logical assignment operators */
+const rest1 = {
+  name: "capri",
+  numGuest: 0,
+};
+
+const rest2 = {
+  name: "capri",
+  owner: "Giovanni Rossi",
+};
+//con viejo or
+// rest1.numGuest = rest1.numGuest || 10;
+// rest2.numGuest = rest2.numGuest || 10;
+// console.log(rest1);
+// console.log(rest2);
+
+//con operador nuevo or assignment
+// rest1.numGuest ||= 10;
+// rest2.numGuest ||= 10;
+// console.log(rest1);
+// console.log(rest2);
+
+//nullish assignment operator
+rest1.numGuest ??= 10;
+rest2.numGuest ??= 10;
+console.log(rest1);
+console.log(rest2);
