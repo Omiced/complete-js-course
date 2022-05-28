@@ -158,7 +158,7 @@ btn.addEventListener("click", () => {
 
 getCountryData("australia");
 */
-/* coding charenji */
+/* coding charenji 
 const whereAmI = function (lat, lng) {
   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
     .then((response) => {
@@ -178,3 +178,31 @@ const whereAmI = function (lat, lng) {
 };
 
 whereAmI(52.508, 13.381);
+*/
+
+/* creando una promesa */
+const lotteryPromise = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    if (Math.random() >= 0.5) {
+      resolve("You win mony");
+    } else {
+      reject(new Error("You lost your mony"));
+    }
+  }, 2000);
+});
+
+lotteryPromise.then((res) => console.log(res));
+
+//promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(2)
+  .then(() => {
+    console.log("Espere 2 segundos perro");
+    return wait(1);
+  })
+  .then(() => console.log("yo espere un segundo xd"));
