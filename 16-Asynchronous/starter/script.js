@@ -180,7 +180,7 @@ const whereAmI = function (lat, lng) {
 whereAmI(52.508, 13.381);
 */
 
-/* creando una promesa */
+/* creando una promesa 
 const lotteryPromise = new Promise(function (resolve, reject) {
   setTimeout(() => {
     if (Math.random() >= 0.5) {
@@ -206,3 +206,41 @@ wait(2)
     return wait(1);
   })
   .then(() => console.log("yo espere un segundo xd"));
+*/
+
+/* haciendo una promesa con la api de geolocalización*/
+
+const getPosition = function () {
+  return new Promise((resolve, reject) => {
+    // navigator.geolocation.getCurrentPosition((position) => resolve(position), err => reject(err));
+    //modo más optimizado
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+//modificando el coding charenji para usar las coordenadas obtenidas de esta promesa
+const whereAmI = function () {
+  //primero obtenemos la promesa llamando la función.
+  getPosition()
+    .then((pos) => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      //retornamos la nueva promesa del fetch
+      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    })
+    .then((response) => {
+      if (!response.ok) throw new Error("Too many request");
+      return response.json();
+    })
+    .then((data) => {
+      const country = data.country;
+      return fetch(`https://restcountries.com/v2/name/${country}`);
+    })
+    .then((response) => response.json())
+    .then((data) => renderCountry(data[0]))
+    .catch((err) => renderError(`something went wrong ${err.message}`))
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
+
+btn.addEventListener("click", whereAmI);
