@@ -208,7 +208,7 @@ wait(2)
   .then(() => console.log("yo espere un segundo xd"));
 */
 
-/* haciendo una promesa con la api de geolocalización*/
+/* haciendo una promesa con la api de geolocalización
 
 const getPosition = function () {
   return new Promise((resolve, reject) => {
@@ -244,3 +244,43 @@ const whereAmI = function () {
 };
 
 btn.addEventListener("click", whereAmI);
+*/
+/* coding charenji 2
+//1 crear una promesa que genere un elemento img y la función tome el path a la img como argumento+
+const wait = function (seconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+const imagesContainer = document.querySelector(".images");
+const createImage = function (imgPath) {
+  return new Promise((resolve, reject) => {
+    const img = document.createElement("img");
+    img.src = imgPath;
+    img.addEventListener("load", () => {
+      imagesContainer.appendChild(img);
+      resolve(img);
+    });
+    img.addEventListener("error", () => reject(new Error("Image not found")));
+  });
+};
+
+let currentImg;
+createImage("img/img-1.jpg")
+  .then((img) => {
+    currentImg = img;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = "none";
+    return createImage("img/img-2.jpg");
+  })
+  .then((img) => {
+    currentImg = img;
+    return wait(2);
+  })
+  .then(() => (currentImg.style.display = "none"))
+  .catch((err) => console.error(err));
+*/
+
+/* async await */
