@@ -18,6 +18,7 @@ const renderCountry = function (data, className) {
     </div>
   </article>`;
   countriesContainer.insertAdjacentHTML("beforeend", html);
+  countriesContainer.style.opacity = 1;
 };
 
 const renderError = function (msg) {
@@ -284,3 +285,32 @@ createImage("img/img-1.jpg")
 */
 
 /* async await */
+//función para obetener la geolocalización
+const getPosition = function () {
+  return new Promise((resolve, reject) => {
+    // navigator.geolocation.getCurrentPosition((position) => resolve(position), err => reject(err));
+    //modo más optimizado
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+//estructura de una función asincrona usando async/await
+const whereAmI = async function () {
+  //obteniendo posición
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
+  //aplicamos geolocalización inversa y almacenamos la respuesta
+  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+  //obteniendo los datos de la respuesta
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
+  //cuando se usa async/await la respuesta de la promesa es retornada de inmediato en el await
+  const res = await fetch(
+    `https://restcountries.com/v2/name/${dataGeo.country}`
+  );
+  const data = await res.json();
+  renderCountry(data[0]);
+};
+
+whereAmI();
+console.log("probando que es asincrono");
