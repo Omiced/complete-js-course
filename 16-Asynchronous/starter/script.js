@@ -286,31 +286,114 @@ createImage("img/img-1.jpg")
 
 /* async await */
 //función para obetener la geolocalización
-const getPosition = function () {
+// const getPosition = function () {
+//   return new Promise((resolve, reject) => {
+// navigator.geolocation.getCurrentPosition((position) => resolve(position), err => reject(err));
+//modo más optimizado
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+//estructura de una función asincrona usando async/await
+// const whereAmI = async function () {
+//   try {
+//obteniendo posición
+//     const pos = await getPosition();
+//     const { latitude: lat, longitude: lng } = pos.coords;
+//aplicamos geolocalización inversa y almacenamos la respuesta
+//     const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     //nuevo error
+//     if (!resGeo.ok) throw new Error("Problem getting location data");
+//obteniendo los datos de la respuesta
+//     const dataGeo = await resGeo.json();
+//     console.log(dataGeo);
+//cuando se usa async/await la respuesta de la promesa es retornada de inmediato en el await
+//     const res = await fetch(
+//       `https://restcountries.com/v2/name/${dataGeo.country}`
+//     );
+//nuevo error
+//     if (!res.ok) throw new Error("Problem getting country");
+//obteniendo data
+//     const data = await res.json();
+//     renderCountry(data[0]);
+//   } catch (err) {
+//     console.error(err.message);
+//     //reject promise returned from async function
+//     throw err;
+//   }
+// };
+
+// whereAmI();
+// console.log("probando que es asincrono");
+
+/* running promises in parallel
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    // const [data1] = await getJSON(`https://restcountries.com/v2/name/${c1}`);
+    // const [data2] = await getJSON(`https://restcountries.com/v2/name/${c2}`);
+    // const [data3] = await getJSON(`https://restcountries.com/v2/name/${c3}`);
+    // console.log([data1.capital, data2.capital, data3.capital]);
+
+    //corriendo todas las peticiones en paralelo
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v2/name/${c1}`),
+      getJSON(`https://restcountries.com/v2/name/${c2}`),
+      getJSON(`https://restcountries.com/v2/name/${c3}`),
+    ]);
+    console.log(data.map((d) => d[0].capital));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+get3Countries("portugal", "mexico", "argentina");
+*/
+/* coding charenji 3*/
+const wait = function (seconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+const imagesContainer = document.querySelector(".images");
+const createImage = function (imgPath) {
   return new Promise((resolve, reject) => {
-    // navigator.geolocation.getCurrentPosition((position) => resolve(position), err => reject(err));
-    //modo más optimizado
-    navigator.geolocation.getCurrentPosition(resolve, reject);
+    const img = document.createElement("img");
+    img.src = imgPath;
+    img.addEventListener("load", () => {
+      imagesContainer.appendChild(img);
+      resolve(img);
+    });
+    img.addEventListener("error", () => reject(new Error("Image not found")));
   });
 };
 
-//estructura de una función asincrona usando async/await
-const whereAmI = async function () {
-  //obteniendo posición
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
-  //aplicamos geolocalización inversa y almacenamos la respuesta
-  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-  //obteniendo los datos de la respuesta
-  const dataGeo = await resGeo.json();
-  console.log(dataGeo);
-  //cuando se usa async/await la respuesta de la promesa es retornada de inmediato en el await
-  const res = await fetch(
-    `https://restcountries.com/v2/name/${dataGeo.country}`
-  );
-  const data = await res.json();
-  renderCountry(data[0]);
+// let currentImg;
+/*1. hacer la función de carga y espera del charenji 2 con async await
+const loadAndPause = async function (imgPath) {
+  try {
+    const img = await createImage(imgPath);
+    await wait(2);
+    img.style.display = "none";
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-whereAmI();
-console.log("probando que es asincrono");
+loadAndPause("img/img-1.jpg");
+*/
+
+/*2 crear una función que cargue y muestre un array de imagenes de forma asincrona*/
+const loadAll = async function (imgArr) {
+  try {
+    const imgs = imgArr.map(async function (img) {
+      const loadImg = await createImage(img);
+      return loadImg;
+    });
+    const loadImgs = await Promise.all(imgs);
+    loadImgs.forEach((img) => img.classList.add("parallel"));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+loadAll(["img/img-1.jpg", "img/img-2.jpg", "img/img-3.jpg"]);
