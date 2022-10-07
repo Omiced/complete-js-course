@@ -1,8 +1,7 @@
 // importing moduel
-// import { addToCart } from './shoppingCart.js';
-// console.log('importing module');
-
-// addToCart('pollo', 1);
+import { addToCart } from './shoppingCart.js';
+console.log('importing module');
+addToCart('pollo', 1);
 /* ejemplo con top-leven await
 const getLastPos = async function () {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -12,7 +11,7 @@ const getLastPos = async function () {
 
 const lastPos = await getLastPos();
 console.log(lastPos);*/
-/* module patern*/
+/* module patern
 const ShoppingCart2 = (function () {
   const cart = [];
   const shippingCost = 10;
@@ -38,3 +37,35 @@ const ShoppingCart2 = (function () {
 
 ShoppingCart2.addToCart('apple', 4);
 ShoppingCart2.addToCart('pizz', 2);
+*/
+
+/* modulos de npm */
+//ruta manual
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+//ruta con parcel
+import cloneDeep from 'lodash-es';
+
+const state = {
+  cart: [
+    [
+      { product: 'pizza', quantity: 5 },
+      { product: 'bread', quantity: 5 },
+    ],
+  ],
+  user: { loggedIn: true },
+};
+
+//clonando con js normie
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+state.user.loggedIn = false;
+//se puede observar que clonando de esta manera
+//aún se tienen problemas de direccionamiento de variables mas profundas
+console.log(stateClone);
+
+//clonando con lodash
+console.log(stateDeepClone);
+//hot module replacement parcel
+if (module.hot) {
+  module.hot.accept();
+}
